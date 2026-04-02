@@ -1,7 +1,10 @@
+import { iconsLib } from "./components/UiComponents/Icon";
+import Icon from "./components/UiComponents/Icon";
 export default function App() {
   return (
-    <div className="text-cyan-600 h-5 w-5">
+    <div className="text-gray-500">
       <span>Hello</span>
+      <Icon svg={iconsLib.calendar}></Icon>
     </div>
   );
 }
