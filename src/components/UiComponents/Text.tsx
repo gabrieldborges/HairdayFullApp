@@ -1,7 +1,7 @@
 import React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 
-const TextVariants = cva("text-gray-900", {
+const TextVariants = cva("text-gray-200", {
     variants: {
         variant: {
             "title-lg-bold": "text-[2rem] leading-6 font-bold",

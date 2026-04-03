@@ -25,8 +25,6 @@ const ButtonVariants = cva("flex justify-center items-center", {
 })
 
 
-
-
 interface ButtonProps extends Omit<React.ComponentProps<"button">, "size" | "disabled">, VariantProps<typeof ButtonVariants> {
 
 }

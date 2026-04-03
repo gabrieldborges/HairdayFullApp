@@ -22,14 +22,19 @@ export const iconsLib = {
   calendar: CalendarIcon,
 };
 
-const IconVariants = cva("", {
+const IconVariants = cva("fill-yellow", {
   variants: {
     animate: {
       true: "animate-spin",
     },
+    size: {
+      "regular": "w-5 h-5",
+      "function": "w-4 h-4"
+    }
   },
   defaultVariants: {
     animate: false,
+    size: "regular"
   },
 });
 
@@ -41,10 +46,11 @@ interface IconProps
 export default function Icon({
   svg: SvgComponent,
   className,
+  size,
   animate,
   ...props
 }: IconProps) {
   return (
-    <SvgComponent className={IconVariants({ animate, className })} {...props} />
+    <SvgComponent className={IconVariants({ animate, className, size })} {...props} />
   );
 }
