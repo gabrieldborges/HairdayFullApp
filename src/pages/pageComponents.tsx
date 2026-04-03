@@ -1,6 +1,7 @@
 import Icon from "../components/UiComponents/Icon"
 import { iconsLib } from "../components/UiComponents/Icon"
 import Text from "../components/UiComponents/Text"
+import Button from "../components/UiComponents/Button"
 
 export default function PageComponents() {
     return (
@@ -15,6 +16,11 @@ export default function PageComponents() {
                 <Text variant={"title-sm-bold"}>This is a Text Component</Text>
                 <Text variant={"text-md-regular"}>This is a Text Component</Text>
                 <Text variant={"text-sm-regular"}>This is a Text Component</Text>
+            </div>
+            <div>
+                <Button >
+                    AGENDAR
+                </Button>
             </div>
         </div>
     )
