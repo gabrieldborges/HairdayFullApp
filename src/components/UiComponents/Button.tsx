@@ -2,7 +2,7 @@ import type React from "react"
 import Text from "./Text"
 import { cva, type VariantProps } from "class-variance-authority"
 
-const ButtonVariants = cva("flex justify-center items-center", {
+const ButtonVariants = cva("flex justify-center items-center transition duration-150", {
     variants: {
         variant: {
             "primary": `bg-yellow border-2 border-yellow

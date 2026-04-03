@@ -9,10 +9,11 @@ const TextVariants = cva("text-gray-200", {
             "title-sm-bold": "text-[0.875rem] leading-5 font-bold",
             "text-md-regular": "text-[1rem] leading-6 font-normal",
             "text-sm-regular": "text-[0.875rem] leading-5 font-normal",
-        }
+        },
+
     },
     defaultVariants: {
-        variant: "text-md-regular"
+        variant: "text-md-regular",
     }
 })
 
@@ -23,6 +24,6 @@ interface TextProps extends React.HTMLAttributes<HTMLElement>,
 
 export default function Text({ as = "span", className, children, variant, ...props }: TextProps) {
     return (
-        React.createElement(as, { className: TextVariants({ variant, className }), ...props }, children)
+        React.createElement(as, { className: TextVariants({ variant, className, }), ...props }, children)
     )
 }

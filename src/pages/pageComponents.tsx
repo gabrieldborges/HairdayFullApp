@@ -2,6 +2,8 @@ import Icon from "../components/UiComponents/Icon"
 import { iconsLib } from "../components/UiComponents/Icon"
 import Text from "../components/UiComponents/Text"
 import Button from "../components/UiComponents/Button"
+import InputText from "../components/UiComponents/InputText"
+import TimeButton from "../components/UiComponents/TimeButton"
 
 export default function PageComponents() {
     return (
@@ -51,6 +53,13 @@ export default function PageComponents() {
                 <Button >
                     AGENDAR
                 </Button>
+            </div>
+            <div>
+                <InputText />
+            </div>
+            <div className="flex gap-1 ">
+                <TimeButton></TimeButton>
+                <TimeButton disabled></TimeButton>
             </div>
         </div>
     )
