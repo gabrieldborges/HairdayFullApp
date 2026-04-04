@@ -9,7 +9,7 @@ const ButtonVariants = cva("flex justify-center items-center transition duration
              hover:border-yellow-light`,
         },
         size: {
-            "lg": "py-4.5 px-[8.59375rem] rounded-lg"
+            "lg": "py-4.5 px-[8.59375rem] rounded-lg w-full"
         },
         disabled: {
             true: "opacity-30"
