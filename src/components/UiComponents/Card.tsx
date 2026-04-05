@@ -31,10 +31,8 @@ export default function Card({
     children,
     ...props }: CardProps) {
     return (
-        <Container size={size} className={CardVariants({ size, variant, className })}>
-            <div >
+        <div className={CardVariants({ size, variant, className })}>
                 {children}
-            </div>
-        </Container>
+        </div>
     )
 }
