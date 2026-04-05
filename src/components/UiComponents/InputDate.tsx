@@ -1,4 +1,5 @@
 import type React from "react"
+import { useRef } from "react"
 import Icon from "./Icon"
 import { iconsLib } from "./Icon"
 import { cva, type VariantProps, cx } from "class-variance-authority"
@@ -28,9 +29,10 @@ const InputDateWrapperVariants = cva(`
 
 
 const InputDateVariants = cva(`
-    flex justify-center items-center transition duration-150 
-    flex-1 outline-none 
+    transition duration-150
+    flex-1 outline-none text-left
     focus-within:placeholder:opacity-0
+    [&::-webkit-calendar-picker-indicator]:hidden
     `, {
     variants: {
         variant: {
@@ -58,16 +60,19 @@ interface InputDateProps extends Omit<React.ComponentProps<"input">, "size" | "d
 }
 
 export default function InputDate({ children, disabled, variant, size, className, ...props }: InputDateProps) {
+    const inputRef = useRef<HTMLInputElement>(null)
+
     return (
-        <div className={InputDateWrapperVariants({ variant, size, className })}>
-            <Icon svg={iconsLib.userSquare}></Icon>
-            < input className={
+        <div className={InputDateWrapperVariants({ variant, size, className })}
+            onClick={() => inputRef.current?.showPicker()}>
+            <Icon svg={iconsLib.calendar}></Icon>
+            <input className={
                 cx(InputDateVariants({ variant, size, className, disabled }),
                     TextVariants({ variant: "text-md-regular" })
                 )
             }
-                {...props} placeholder="Nome do cliente" />
-        </div >
-
+                ref={inputRef} {...props} placeholder="Data de hoje" type="date" />
+            <Icon svg={iconsLib.caretDown} ></Icon>
+        </div>
     )
 }
