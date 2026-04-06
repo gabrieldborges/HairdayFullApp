@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 const TextVariants = cva("text-gray-200", {
     variants: {
         variant: {
-            "title-lg-bold": "text-[2rem] leading-6 font-bold",
+            "title-lg-bold": "text-[1.5rem] leading-6 font-bold",
             "title-md-bold": "text-[1rem] leading-6 font-bold",
             "title-sm-bold": "text-[0.875rem] leading-5 font-bold",
             "text-md-regular": "text-[1rem] leading-6 font-normal",

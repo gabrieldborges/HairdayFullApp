@@ -6,6 +6,7 @@ const TimeButtonWrapperVariants = cva(`
     flex justify-center items-center transition 
     duration-150 cursor-pointer
     border gap-2 group
+    w-[4.90625rem] h-10
     `, {
     variants: {
         variant: {
@@ -53,7 +54,7 @@ interface TimeButtonProps extends Omit<React.ComponentProps<"button">, "size" | 
 
 export default function TimeButton({ children, disabled, variant, size, className, ...props }: TimeButtonProps) {
     return (
-        <button className={TimeButtonWrapperVariants({ variant, size, className, disabled })}{...props}>
+        <button type="button" className={TimeButtonWrapperVariants({ variant, size, className, disabled })}{...props}>
             <Text className={TimeButtonVariants({ variant, disabled })}>
                 {children || "09:00"}
             </Text>

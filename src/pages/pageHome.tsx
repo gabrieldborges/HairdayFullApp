@@ -5,7 +5,7 @@ import Appointments from "../components/CoreComponents/Appointments"
 
 export default function PageHome() {
     return (
-        <Container className="flex gap-1" size={"main"}>
+        <Container className="flex gap-1 justify-between" size={"main"}>
             <Schedule></Schedule>
             <Appointments></Appointments>
         </Container>

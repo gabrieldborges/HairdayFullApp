@@ -1,9 +1,8 @@
 import React from "react"
-import Container from "./Container";
 
 import { cva, type VariantProps } from "class-variance-authority";
 
-export const CardVariants = cva(`rounded-xl min-h-[54.75rem] `,
+export const CardVariants = cva(`rounded-xl mx-auto`,
     {
         variants: {
             variant: {
@@ -11,7 +10,7 @@ export const CardVariants = cva(`rounded-xl min-h-[54.75rem] `,
                 "secondary": "bg-gray-800"
             },
             size: {
-                md: ``, lg: `flex-1`
+                md: `  `, lg: `flex-1`
             },
         },
         defaultVariants: {
@@ -31,8 +30,8 @@ export default function Card({
     children,
     ...props }: CardProps) {
     return (
-        <div className={CardVariants({ size, variant, className })}>
-                {children}
+        <div className={CardVariants({ size, variant, className })} {...props}>
+            {children}
         </div>
     )
 }
