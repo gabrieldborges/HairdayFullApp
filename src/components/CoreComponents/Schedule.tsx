@@ -5,9 +5,14 @@ import InputDate from "../UiComponents/InputDate"
 import TimeButton from "../UiComponents/TimeButton"
 import InputText from "../UiComponents/InputText"
 import Button from "../UiComponents/Button"
+import React from "react"
+import { useAppointmentsContext } from "../../context/AppointmentsContext"
 
 
 export default function Schedule() {
+
+    const { hello } = useAppointmentsContext();
+
     type Hour = { time: string; disabled: boolean };
 
     const OPEN_HOURS: Hour[] = [
