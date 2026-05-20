@@ -11,7 +11,7 @@ import { useAppointmentsContext } from "../../context/AppointmentsContext"
 
 export default function Schedule() {
 
-    const { hello } = useAppointmentsContext();
+    const { mockAppointments } = useAppointmentsContext();
 
     type Hour = { time: string; disabled: boolean };
 
@@ -35,7 +35,14 @@ export default function Schedule() {
                 <div className="mb-3">
                     <Text className="text-gray-300!" variant={"text-sm-regular"}>{label}</Text>
                     <div className="grid grid-cols-4 gap-2 mt-2 w-[21.125rem]">
-                        {hours.map((hour, index) => <TimeButton key={`${index}-${hour.time}`} disabled={hour.disabled}>{hour.time}</TimeButton>)}
+                        {hours.map((hour, index) => {
+                            const isDisabled = hour.disabled || mockAppointments.some(
+                                (appointment) => appointment.hour == hour.time
+                            );
+                            return (
+                                <TimeButton key={`${index}-${hour.time}`} disabled={isDisabled}>{hour.time}</TimeButton>
+                            );
+                        })}
                     </div>
                 </div>
             )
