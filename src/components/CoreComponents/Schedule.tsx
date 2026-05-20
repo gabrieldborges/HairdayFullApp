@@ -5,13 +5,23 @@ import InputDate from "../UiComponents/InputDate"
 import TimeButton from "../UiComponents/TimeButton"
 import InputText from "../UiComponents/InputText"
 import Button from "../UiComponents/Button"
-import React from "react"
+import React, { useEffect } from "react"
 import { useAppointmentsContext } from "../../context/AppointmentsContext"
 
 
 export default function Schedule() {
 
-    const { mockAppointments } = useAppointmentsContext();
+    const { mockAppointments, createAppointment } = useAppointmentsContext();
+    const [scheduleDate, setScheduleDate] = React.useState("");
+    const [scheduleHour, setScheduleHour] = React.useState("");
+    const [scheduleClientName, setScheduleClientName] = React.useState("");
+
+    useEffect(() => {
+        console.log(scheduleHour)
+    }, [scheduleHour])
+    useEffect(() => {
+        console.log(scheduleDate)
+    }, [scheduleDate])
 
     type Hour = { time: string; disabled: boolean };
 
@@ -40,7 +50,11 @@ export default function Schedule() {
                                 (appointment) => appointment.hour == hour.time
                             );
                             return (
-                                <TimeButton key={`${index}-${hour.time}`} disabled={isDisabled}>{hour.time}</TimeButton>
+                                <TimeButton key={`${index}-${hour.time}`} disabled={isDisabled}
+                                    onClick={() => {
+                                        setScheduleHour(hour.time)
+                                    }}
+                                >{hour.time}</TimeButton>
                             );
                         })}
                     </div>
@@ -71,7 +85,9 @@ export default function Schedule() {
                 <form action="" className="grid gap-8">
                     <section className="grid gap-2">
                         <Text variant={"title-md-bold"}>Data</Text>
-                        <InputDate></InputDate>
+                        <InputDate onChange={(e) => {
+                            setScheduleDate(e.target.value)
+                        }}></InputDate>
                     </section>
                     <section className="grid gap-2">
                         <Text variant={"title-md-bold"}>Horários</Text>
@@ -79,12 +95,23 @@ export default function Schedule() {
                     </section>
                     <section className="grid gap-2">
                         <Text>Cliente</Text>
-                        <InputText></InputText>
+                        <InputText value={scheduleClientName} onChange={
+                            (e) => {
+                                console.log(scheduleClientName)
+                                setScheduleClientName(e.target.value)
+                            }
+                        }></InputText>
                     </section>
                 </form>
             </Container>
             <Container className="mt-6">
-                <Button>Agendar</Button>
+                <Button onClick={()=>{
+                    createAppointment({
+                        cliente_name : scheduleClientName,
+                        date : scheduleDate,
+                        hour : scheduleHour
+                    })
+                }}>Agendar</Button>
             </Container>
         </Card>
     </>)

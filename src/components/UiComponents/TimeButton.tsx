@@ -54,8 +54,8 @@ interface TimeButtonProps extends Omit<React.ComponentProps<"button">, "size" | 
 
 export default function TimeButton({ children, disabled, variant, size, className, ...props }: TimeButtonProps) {
     return (
-        <button type="button" className={TimeButtonWrapperVariants({ variant, size, className, disabled })}{...props}>
-            <Text className={TimeButtonVariants({ variant, disabled })}>
+        <button type="button" className={TimeButtonWrapperVariants({ variant, size, className, disabled })}>
+            <Text className={TimeButtonVariants({ variant, disabled })}{...props}>
                 {children || "09:00"}
             </Text>
         </button >
