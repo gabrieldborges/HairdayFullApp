@@ -6,47 +6,67 @@ import TimeButton from "../UiComponents/TimeButton"
 import InputText from "../UiComponents/InputText"
 import Button from "../UiComponents/Button"
 import { useAppointmentsContext } from "../../context/AppointmentsContext"
-
+import AppointmentsSection from "./AppointmentsSection"
+import { iconsLib } from "../UiComponents/Icon"
+import Icon from "../UiComponents/Icon"
 
 export default function Appointments() {
+    const { mockAppointments } = useAppointmentsContext();
 
-     type Hour = { time: string; disabled: boolean };
-    
-        const OPEN_HOURS: Hour[] = [
-            { time: "09:00", disabled: false }, { time: "10:00", disabled: false },
-            { time: "11:00", disabled: false }, { time: "12:00", disabled: false },
-            { time: "13:00", disabled: false }, { time: "14:00", disabled: false },
-            { time: "15:00", disabled: false }, { time: "16:00", disabled: false },
-            { time: "17:00", disabled: false }, { time: "18:00", disabled: false },
-            { time: "19:00", disabled: false }, { time: "20:00", disabled: false },
-            { time: "21:00", disabled: false },
-        ];
+    type Hour = {
+        appointment_number: number,
+        cliente_name: string,
+        date: string,
+        hour: string,
+    };
 
-        // setAppointments(OPEN_HOURS);
-    
-        function createSections(hours: Hour[]) {
-            const morning = hours.filter((hour) => hour.time < "13:00")
-            const afternoon = hours.filter((hour) => hour.time >= "13:00" && hour.time <= "19:00")
-            const night = hours.filter((hour) => hour.time > "19:00")
-    
-            function renderSections(label: string, hours: Hour[]) {
-                return (
-                    <div className="mb-3">
+
+    function createSections(appointments: Hour[]) {
+        const morning = appointments.filter((appointment) => appointment.hour < "13:00")
+        const afternoon = appointments.filter((appointment) => appointment.hour >= "13:00" && appointment.hour <= "19:00")
+        const night = appointments.filter((appointment) => appointment.hour > "19:00")
+
+
+
+        function renderSections(label: string, timeSpan: string, appointments: Hour[], icon: React.FC<React.ComponentProps<"svg">>) {
+            return (
+                <AppointmentsSection className="mb-3 border border-gray-600 rounded-lg">
+                    <div className="flex gap-3 border-b border-gray-600 py-3 px-5">
+                        <Icon svg={icon}></Icon>
                         <Text className="text-gray-300!" variant={"text-sm-regular"}>{label}</Text>
-                        <div className="grid grid-cols-4 gap-2 mt-2 w-[21.125rem]">
-                            {hours.map((hour, index) => <TimeButton key={`${index}-${hour.time}`} disabled={hour.disabled}>{hour.time}</TimeButton>)}
-                        </div>
+                        <Text className="text-gray-400! ml-auto" variant={"text-sm-regular"}>{timeSpan}</Text>
                     </div>
-                )
-            }
-    
-            return <>
-                {renderSections("Manhã", morning)}
-                {renderSections("Tarde", afternoon)}
-                {renderSections("Noite", night)}
-            </>
-    
+                    <div className="grid gap-2 mt-2  px-5  w-full py-5">
+                        {
+                            appointments.length > 0 ? (
+                                appointments.map((appointment, index) =>
+                                    <div key={`${index}-${appointment.hour}`} className="flex gap-5 h-8 ">
+                                        <Text className="w-12" variant={"title-md-bold"}>
+                                            {appointment.hour || " "}
+                                        </Text>
+                                        <Text variant={"text-md-regular"}>
+                                            {appointment.cliente_name || " "}
+                                        </Text>
+                                        <Icon svg={iconsLib.trash} className="ml-auto cursor-pointer" size={"function"}></Icon>
+
+                                    </div>
+                                )
+                            ) : (
+                                <div>No appointments</div>
+                            )
+                        }
+                    </div>
+                </AppointmentsSection>
+            )
         }
+
+        return <>
+            {renderSections("Manhã", "09h-12h", morning, iconsLib.sunHorizon)}
+            {renderSections("Tarde", "13h-18h", afternoon, iconsLib.cloudSun)}
+            {renderSections("Noite", "19h-21h", night, iconsLib.moonStars)}
+        </>
+
+    }
 
     return (<>
         <Card className="py-4" size={"lg"} variant={"secondary"}>
@@ -57,16 +77,16 @@ export default function Appointments() {
                 md:mt-20 md:flex-row md:text-left
                 ">
                     <div className="flex flex-col gap-3">
-                        <Text variant={"title-lg-bold"} className="text-gray-100!">Sua agenda</Text>
-                        <Text variant={"text-sm-regular"} className="text-gray-300!">Consulte os seus cortes de cabelo agendados por dia</Text>
+                        <Text variant={"title-lg-bold"} className="text-gray-100! whitespace-nowrap">Sua agenda</Text>
+                        <Text variant={"text-sm-regular"} className="text-gray-300! whitespace-nowrap">Consulte os seus cortes de cabelo agendados por dia</Text>
                     </div>
-                    <InputDate/>
+                    <InputDate />
                 </header>
             </Container>
             <Container className="mt-6 ">
-               {createSections(OPEN_HOURS)}
+                {createSections(mockAppointments)}
             </Container>
-            
+
         </Card>
     </>)
 }
