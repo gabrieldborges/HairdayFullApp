@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import useLocalStorage from "./useLocalStorage";
 
-  export interface Appointment  {
-    id?: string;
-    cliente_name: string;
-    date: string;
-    hour: string;
-  };
+export interface Appointment {
+  id?: string;
+  cliente_name: string;
+  date: string;
+  hour: string;
+}
 
 export default function useAppointments() {
   const mockAppointments = [
@@ -66,12 +66,13 @@ export default function useAppointments() {
     },
   ];
 
+  const [appointments, setAppointments] = useLocalStorage<Appointment[]>(
+    "appointments",
+    [],
+  );
 
-
-  const [appointments, setAppointments] = useLocalStorage<Appointment[]>("appointments" , [])
-  
-  function createAppointment({cliente_name, date, hour} : Appointment) {
-    if(cliente_name != "" && date != "" && hour != "" ){
+  function createAppointment({ cliente_name, date, hour }: Appointment) {
+    if (cliente_name != "" && date != "" && hour != "") {
       setAppointments([
         ...appointments,
         {
@@ -83,11 +84,17 @@ export default function useAppointments() {
       ]);
     }
   }
+  function deleteTask(id: any) {
+    setAppointments(
+      appointments.filter((appointment) => appointment.id !== id),
+    );
+  }
 
   return {
     appointments,
     setAppointments,
     mockAppointments,
     createAppointment,
+    deleteTask,
   };
 }

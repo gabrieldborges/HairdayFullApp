@@ -2,9 +2,6 @@ import Container from "../UiComponents/Container"
 import Card from "../UiComponents/Card"
 import Text from "../UiComponents/Text"
 import InputDate from "../UiComponents/InputDate"
-import TimeButton from "../UiComponents/TimeButton"
-import InputText from "../UiComponents/InputText"
-import Button from "../UiComponents/Button"
 import { useAppointmentsContext } from "../../context/AppointmentsContext"
 import AppointmentsSection from "./AppointmentsSection"
 import { iconsLib } from "../UiComponents/Icon"
@@ -14,8 +11,10 @@ import type { Appointment } from "../../hooks/useAppointments";
 
 
 export default function Appointments() {
-    const { mockAppointments, appointments } = useAppointmentsContext();
-    const [appointmentDate, setAppointmentDate] = React.useState("");
+    const todayIso = new Date().toLocaleDateString("en-CA");
+
+    const { appointments, deleteTask } = useAppointmentsContext();
+    const [appointmentDate, setAppointmentDate] = React.useState(todayIso);
 
     const todaysAppointments = appointments.filter((appointment)=>{
         return appointment.date == appointmentDate
@@ -29,8 +28,6 @@ export default function Appointments() {
         const morning = todaysAppointments.filter((appointment) => appointment.hour < "13:00")
         const afternoon = todaysAppointments.filter((appointment) => appointment.hour >= "13:00" && appointment.hour <= "19:00")
         const night = todaysAppointments.filter((appointment) => appointment.hour > "19:00")
-
-
 
 
         function renderSections(label: string, timeSpan: string, appointments: Appointment[], icon: React.FC<React.ComponentProps<"svg">>) {
@@ -52,7 +49,7 @@ export default function Appointments() {
                                         <Text variant={"text-md-regular"}>
                                             {appointment.cliente_name || " "}
                                         </Text>
-                                        <Icon svg={iconsLib.trash} className="ml-auto cursor-pointer" size={"function"}></Icon>
+                                        <Icon svg={iconsLib.trash} className="ml-auto cursor-pointer" size={"function"} onClick={()=>deleteTask(appointment.id)}></Icon>
 
                                     </div>
                                 )

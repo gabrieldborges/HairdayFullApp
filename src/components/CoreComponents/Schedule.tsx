@@ -10,9 +10,9 @@ import { useAppointmentsContext } from "../../context/AppointmentsContext"
 
 
 export default function Schedule() {
-
+    const todayIso = new Date().toLocaleDateString("en-CA");
     const { mockAppointments, createAppointment, appointments } = useAppointmentsContext();
-    const [scheduleDate, setScheduleDate] = React.useState("");
+    const [scheduleDate, setScheduleDate] = React.useState(todayIso);
     const [scheduleHour, setScheduleHour] = React.useState("");
     const [scheduleClientName, setScheduleClientName] = React.useState("");
     const [selectedTime, setSelectedTime] = React.useState<string | null>(null);
@@ -99,7 +99,21 @@ export default function Schedule() {
                 </header>
             </Container>
             <Container className="mt-6 ">
-                <form action="" className="grid gap-8">
+                <form action="" className="grid gap-8"
+                    onSubmit={(e) => e.preventDefault()}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                            e.preventDefault();
+                            createAppointment({
+                                cliente_name: scheduleClientName,
+                                date: scheduleDate,
+                                hour: scheduleHour
+                            });
+                            setSelectedTime(null);
+                            setScheduleClientName("");
+                        }
+                    }}
+                >
                     <section className="grid gap-2">
                         <Text variant={"title-md-bold"}>Data</Text>
                         <InputDate onChange={(e) => {
