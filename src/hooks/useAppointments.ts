@@ -79,7 +79,6 @@ export default function useAppointments() {
           hour: hour,
         },
       ]);
-      console.log(appointments)
     }
   }
 

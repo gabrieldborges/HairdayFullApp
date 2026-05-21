@@ -11,16 +11,23 @@ import { useAppointmentsContext } from "../../context/AppointmentsContext"
 
 export default function Schedule() {
 
-    const { mockAppointments, createAppointment } = useAppointmentsContext();
+    const { mockAppointments, createAppointment, appointments } = useAppointmentsContext();
     const [scheduleDate, setScheduleDate] = React.useState("");
     const [scheduleHour, setScheduleHour] = React.useState("");
     const [scheduleClientName, setScheduleClientName] = React.useState("");
 
+    const todaysAppointments = appointments.filter((appointment)=>{
+        return appointment.date == scheduleDate
+    })
+    
+
     useEffect(() => {
         console.log(scheduleHour)
+        console.log("aqui")
+        console.log(todaysAppointments)
+        console.log(scheduleDate)
     }, [scheduleHour])
     useEffect(() => {
-        console.log(scheduleDate)
     }, [scheduleDate])
 
     type Hour = { time: string; disabled: boolean };
@@ -40,23 +47,27 @@ export default function Schedule() {
         const afternoon = hours.filter((hour) => hour.time >= "13:00" && hour.time <= "19:00")
         const night = hours.filter((hour) => hour.time > "19:00")
 
+
+
         function renderSections(label: string, hours: Hour[]) {
             return (
                 <div className="mb-3">
                     <Text className="text-gray-300!" variant={"text-sm-regular"}>{label}</Text>
                     <div className="grid grid-cols-4 gap-2 mt-2 w-[21.125rem]">
-                        {hours.map((hour, index) => {
-                            const isDisabled = hour.disabled || mockAppointments.some(
-                                (appointment) => appointment.hour == hour.time
-                            );
-                            return (
-                                <TimeButton key={`${index}-${hour.time}`} disabled={isDisabled}
-                                    onClick={() => {
-                                        setScheduleHour(hour.time)
-                                    }}
-                                >{hour.time}</TimeButton>
-                            );
-                        })}
+                        {
+                            hours.map((hour, index) => {
+
+                                const isDisabled = hour.disabled || todaysAppointments.some(
+                                    (appointment) => appointment.hour == hour.time
+                                );
+                                return (
+                                    <TimeButton key={`${index}-${hour.time}`} disabled={isDisabled}
+                                        onClick={() => {
+                                            setScheduleHour(hour.time)
+                                        }}
+                                    >{hour.time}</TimeButton>
+                                );
+                            })}
                     </div>
                 </div>
             )
@@ -105,11 +116,11 @@ export default function Schedule() {
                 </form>
             </Container>
             <Container className="mt-6">
-                <Button onClick={()=>{
+                <Button onClick={() => {
                     createAppointment({
-                        cliente_name : scheduleClientName,
-                        date : scheduleDate,
-                        hour : scheduleHour
+                        cliente_name: scheduleClientName,
+                        date: scheduleDate,
+                        hour: scheduleHour
                     })
                 }}>Agendar</Button>
             </Container>
