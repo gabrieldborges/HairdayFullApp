@@ -9,26 +9,31 @@ import { useAppointmentsContext } from "../../context/AppointmentsContext"
 import AppointmentsSection from "./AppointmentsSection"
 import { iconsLib } from "../UiComponents/Icon"
 import Icon from "../UiComponents/Icon"
+import React from "react"
+import type { Appointment } from "../../hooks/useAppointments";
+
 
 export default function Appointments() {
-    const { mockAppointments } = useAppointmentsContext();
+    const { mockAppointments, appointments } = useAppointmentsContext();
+    const [appointmentDate, setAppointmentDate] = React.useState("");
 
-    type Hour = {
-        appointment_number: number,
-        cliente_name: string,
-        date: string,
-        hour: string,
-    };
-
-
-    function createSections(appointments: Hour[]) {
-        const morning = appointments.filter((appointment) => appointment.hour < "13:00")
-        const afternoon = appointments.filter((appointment) => appointment.hour >= "13:00" && appointment.hour <= "19:00")
-        const night = appointments.filter((appointment) => appointment.hour > "19:00")
+    const todaysAppointments = appointments.filter((appointment)=>{
+        return appointment.date == appointmentDate
+    })
 
 
 
-        function renderSections(label: string, timeSpan: string, appointments: Hour[], icon: React.FC<React.ComponentProps<"svg">>) {
+    function createSections() {
+
+
+        const morning = todaysAppointments.filter((appointment) => appointment.hour < "13:00")
+        const afternoon = todaysAppointments.filter((appointment) => appointment.hour >= "13:00" && appointment.hour <= "19:00")
+        const night = todaysAppointments.filter((appointment) => appointment.hour > "19:00")
+
+
+
+
+        function renderSections(label: string, timeSpan: string, appointments: Appointment[], icon: React.FC<React.ComponentProps<"svg">>) {
             return (
                 <AppointmentsSection className="mb-3 border border-gray-600 rounded-lg">
                     <div className="flex gap-3 border-b border-gray-600 py-3 px-5">
@@ -80,11 +85,11 @@ export default function Appointments() {
                         <Text variant={"title-lg-bold"} className="text-gray-100! whitespace-nowrap">Sua agenda</Text>
                         <Text variant={"text-sm-regular"} className="text-gray-300! whitespace-nowrap">Consulte os seus cortes de cabelo agendados por dia</Text>
                     </div>
-                    <InputDate />
+                    <InputDate onChange={(e) => setAppointmentDate(e.target.value)} />
                 </header>
             </Container>
             <Container className="mt-6 ">
-                {createSections(mockAppointments)}
+                {createSections()}
             </Container>
 
         </Card>

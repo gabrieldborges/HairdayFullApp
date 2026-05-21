@@ -59,6 +59,7 @@ interface InputDateProps extends Omit<React.ComponentProps<"input">, "size" | "d
 
 }
 
+const todayIso = new Date().toLocaleDateString("en-CA");
 export default function InputDate({ children, disabled, variant, size, className, ...props }: InputDateProps) {
     const inputRef = useRef<HTMLInputElement>(null)
 
@@ -71,7 +72,7 @@ export default function InputDate({ children, disabled, variant, size, className
                     TextVariants({ variant: "text-md-regular" })
                 )
             }
-                ref={inputRef} {...props} placeholder="Data de hoje" type="date" />
+                ref={inputRef} defaultValue={todayIso}{...props} placeholder="Data de hoje" type="date" />
             <Icon svg={iconsLib.caretDown} ></Icon>
         </div>
     )

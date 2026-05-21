@@ -15,6 +15,8 @@ export default function Schedule() {
     const [scheduleDate, setScheduleDate] = React.useState("");
     const [scheduleHour, setScheduleHour] = React.useState("");
     const [scheduleClientName, setScheduleClientName] = React.useState("");
+    const [selectedTime, setSelectedTime] = React.useState<string | null>(null);
+    
 
     const todaysAppointments = appointments.filter((appointment)=>{
         return appointment.date == scheduleDate
@@ -23,12 +25,14 @@ export default function Schedule() {
 
     useEffect(() => {
         console.log(scheduleHour)
-        console.log("aqui")
         console.log(todaysAppointments)
-        console.log(scheduleDate)
     }, [scheduleHour])
     useEffect(() => {
+        console.log(scheduleDate)
     }, [scheduleDate])
+    useEffect(() => {
+        console.log(scheduleClientName)
+    }, [scheduleClientName])
 
     type Hour = { time: string; disabled: boolean };
 
@@ -62,8 +66,10 @@ export default function Schedule() {
                                 );
                                 return (
                                     <TimeButton key={`${index}-${hour.time}`} disabled={isDisabled}
+                                        selected={selectedTime === hour.time}
                                         onClick={() => {
                                             setScheduleHour(hour.time)
+                                            setSelectedTime(hour.time)
                                         }}
                                     >{hour.time}</TimeButton>
                                 );
@@ -116,13 +122,16 @@ export default function Schedule() {
                 </form>
             </Container>
             <Container className="mt-6">
-                <Button onClick={() => {
+                <Button onClick={
+                    () => {
                     createAppointment({
                         cliente_name: scheduleClientName,
                         date: scheduleDate,
                         hour: scheduleHour
                     })
-                }}>Agendar</Button>
+                    setSelectedTime(null)
+                }
+                }>Agendar</Button>
             </Container>
         </Card>
     </>)

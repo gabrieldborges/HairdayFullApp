@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import useLocalStorage from "./useLocalStorage";
 
+  export interface Appointment  {
+    id?: string;
+    cliente_name: string;
+    date: string;
+    hour: string;
+  };
+
 export default function useAppointments() {
   const mockAppointments = [
     {
@@ -59,12 +66,7 @@ export default function useAppointments() {
     },
   ];
 
-  type Appointment = {
-    id?: string;
-    cliente_name: string;
-    date: string;
-    hour: string;
-  };
+
 
   const [appointments, setAppointments] = useLocalStorage<Appointment[]>("appointments" , [])
   
